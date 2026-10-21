@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopNest | Your Account</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;color:#1f2937;font-size:14px}
+a{color:#2563eb;text-decoration:none}
+a:hover{text-decoration:underline}
+.top{background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;position:sticky;top:0;z-index:5}
+.brand{color:#fff;font-size:20px;font-weight:bold;letter-spacing:.5px}
+.brand:hover{text-decoration:none}
+.top nav{display:flex;gap:4px}
+.top nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px}
+.top nav a.on,.top nav a:hover{background:#1e293b;color:#fff;text-decoration:none}
+.who{color:#cbd5e1;margin-right:10px}
+main{max-width:1100px;margin:24px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.card h2{margin:0 0 14px;font-size:18px;color:#0f172a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:14px}
+.stat .n{font-size:22px;font-weight:bold;color:#0f172a}
+.stat .l{color:#64748b;font-size:12px;margin-top:4px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #e5e7eb}
+th{color:#64748b;font-weight:600;font-size:12px;text-transform:uppercase}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;background:#e0e7ff;color:#3730a3}
+.pill.ok{background:#dcfce7;color:#166534}
+.pill.warn{background:#fef9c3;color:#854d0e}
+.btn{display:inline-block;background:#2563eb;color:#fff;border:0;border-radius:6px;padding:9px 16px;font-weight:bold;cursor:pointer;font-size:14px;margin-right:8px;margin-top:6px}
+.btn:hover{background:#1d4ed8;text-decoration:none}
+.btn.ghost{background:#fff;color:#2563eb;border:1px solid #cbd5e1}
+.btn.danger{background:#dc2626}
+.btn.danger:hover{background:#b91c1c}
+.btn.sm{padding:6px 10px;font-size:12px;margin:0}
+label{display:block;font-weight:600;font-size:12px;color:#475569;margin:12px 0 6px}
+input,textarea,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;font-family:Arial,sans-serif}
+textarea{min-height:90px;resize:vertical}
+.alert{padding:12px 14px;border-radius:8px;margin-bottom:12px}
+.alert.err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.alert.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px 16px}
+.kv div:nth-child(odd){color:#64748b}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e3a8a)}
+.login{width:360px;margin:0}
+.login .logo{font-size:22px;font-weight:bold;color:#0f172a;text-align:center;margin-bottom:6px}
+.login h2{text-align:center}
+.err-text{color:#dc2626;font-size:13px;min-height:18px;margin-top:8px}
+pre{background:#0b1220;color:#e2e8f0;border-radius:8px;padding:12px;overflow:auto;font-size:12px;white-space:pre-wrap;word-break:break-word;max-height:300px;margin:12px 0 0}
+footer{text-align:center;color:#64748b;font-size:12px;padding:24px 16px 40px}
+footer button{background:none;border:1px solid #cbd5e1;color:#334155;border-radius:6px;padding:6px 12px;cursor:pointer;margin-left:8px}
+.dev{position:fixed;right:16px;bottom:16px;width:min(520px,calc(100vw - 32px));max-height:70vh;overflow:auto;background:#0b1220;color:#e2e8f0;border-radius:10px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:10;font-size:12px}
+.dev .tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.dev .tabs button{background:#1e293b;color:#cbd5e1;border:0;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:12px}
+.dev .tabs button.on{background:#2563eb;color:#fff}
+.dev label{color:#94a3b8}
+.dev input,.dev textarea,.dev select{background:#020617;color:#e2e8f0;border-color:#334155;font-family:Consolas,monospace;font-size:12px}
+.dev .row{padding:6px 8px;border-bottom:1px solid #1e293b;cursor:pointer;font-family:Consolas,monospace;color:#94a3b8;word-break:break-all}
+.dev .row:hover{color:#fff;background:#111827}
+.dev .btn{font-size:12px;padding:7px 12px}
+.toast{position:fixed;left:16px;bottom:16px;background:#0f172a;color:#fff;padding:12px 16px;border-radius:8px;z-index:20;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="dev" class="dev" hidden>
+  <div class="tabs">
+    <button id="tab-net" class="on" onclick="devTab('net')">Network</button>
+    <button id="tab-rep" onclick="devTab('rep')">Repeater</button>
+    <button id="tab-ck" onclick="devTab('ck')">Cookies</button>
+    <button onclick="toggleDev()">Close</button>
+  </div>
+  <div id="t-net"></div>
+  <div id="t-rep" hidden>
+    <label>Method</label>
+    <select id="r-method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+    <label>Path</label>
+    <input id="r-path" value="/api/me">
+    <label>Headers (JSON)</label>
+    <textarea id="r-headers">{}</textarea>
+    <label>Body (JSON)</label>
+    <textarea id="r-body"></textarea>
+    <button class="btn" onclick="sendRep()">Send</button>
+    <pre id="r-out">Response yahan dikhega.</pre>
+  </div>
+  <div id="t-ck" hidden>
+    <label>Session cookie (user_id)</label>
+    <input id="ck-val">
+    <button class="btn" onclick="applyCookie()">Apply</button>
+  </div>
+</div>
+
+<script>
+/* ============ Fictional data (lab only) ============ */
+const SEED = {
+  users: {
+    1: {name:"Alice Sharma", email:"alice@shopnest.test", password:"alice123", role:"user",  phone:"+91 90000 00001", address:"Flat 1, Linking Road, Mumbai"},
+    2: {name:"Bob Verma",    email:"bob@shopnest.test",   password:"bob123",   role:"user",  phone:"+91 90000 00002", address:"12 MG Road, Pune"},
+    3: {name:"Priya Nair",   email:"admin@shopnest.test", password:"admin123", role:"admin", phone:"+91 90000 00003", address:"ShopNest HQ, Bengaluru"}
+  },
+  orders: {
+    500: {owner_id:1, item:"Laptop Bag",    amount:1200, status:"Shipped",    date:"2026-10-02"},
+    501: {owner_id:2, item:"Wireless Mouse",amount:2500, status:"Pending",    date:"2026-10-15"},
+    502: {owner_id:1, item:"USB-C Cable",   amount:300,  status:"Delivered",  date:"2026-09-28"},
+    503: {owner_id:3, item:"Office Chair",  amount:9000, status:"Processing", date:"2026-10-18"}
+  },
+  invoices: {
+    101: {owner_id:1, total:1200, date:"2026-10-02"},
+    102: {owner_id:2, total:2500, date:"2026-10-15"}
+  },
+  files: {
+    "invoice_500.txt": {owner_id:1, body:"ShopNest Invoice #500\nCustomer: Alice Sharma\nItem: Laptop Bag\nAmount: Rs 1200"},
+    "invoice_501.txt": {owner_id:2, body:"ShopNest Invoice #501\nCustomer: Bob Verma\nItem: Wireless Mouse\nAmount: Rs 2500"}
+  },
+  reviews: {
+    1: {owner_id:1, product:"Laptop Bag",     rating:5, text:"Bag mast hai, quality achhi."},
+    2: {owner_id:2, product:"Wireless Mouse", rating:4, text:"Delivery fast thi."}
+  }
+};
+
+/* ============ State ============ */
+let DB = JSON.parse(JSON.stringify(SEED));
+const LIVE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+let COOKIE = "";
+let ME = null;
+let LOG = [];
+
+function loadCookie(){
+  if (LIVE){ const m = document.cookie.match(/user_id=(\d+)/); COOKIE = m ? m[1] : ""; }
+  else { COOKIE = localStorage.getItem("sn_cookie") || ""; }
+}
+function setCookie(v){
+  COOKIE = v;
+  if (LIVE) document.cookie = "user_id=" + v + "; path=/";
+  else localStorage.setItem("sn_cookie", v);
+}
+function clearCookie(){
+  COOKIE = "";
+  if (LIVE) document.cookie = "user_id=; path=/; Max-Age=0";
+  else localStorage.removeItem("sn_cookie");
+}
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const J = (status, body) => ({status, body});
+const ok = body => J(200, body);
+
+/* ============ Simulated backend ============ */
+function hdr(h, name){
+  const k = Object.keys(h).find(x => x.toLowerCase() === name.toLowerCase());
+  return k ? String(h[k]) : undefined;
+}
+
+function curUser(h){
+  const c = hdr(h, "Cookie");
+  const m = c && c.match(/user_id=(\d+)/);
+  return m ? +m[1] : +COOKIE;
+}
+
+function route(method, path, h, bodyStr){
+  const u = new URL("http://shopnest" + path);
+  const p = u.pathname, q = u.searchParams;
+  const uid = curUser(h);
+  const me = DB.users[uid];
+  let body = {};
+  try { body = bodyStr ? JSON.parse(bodyStr) : {}; }
+  catch(e){ return J(400, {error:"Invalid JSON body"}); }
+  let m;
+
+  if (method === "POST" && p === "/api/login"){
+    const id = Object.keys(DB.users).find(k => DB.users[k].email === body.email && DB.users[k].password === body.password);
+    return id ? ok({user_id:+id}) : J(401, {error:"Email ya password galat hai"});
+  }
+  if (method === "GET" && p === "/api/me"){
+    return me ? ok({user_id:uid, ...me}) : J(401, {error:"Login required"});
+  }
+  if (!me) return J(401, {error:"Login required"});
+
+  // Orders
+  if (method === "GET" && p === "/api/my-orders"){
+    return ok({orders: Object.entries(DB.orders).filter(([,o]) => o.owner_id === uid).map(([id,o]) => ({oid:+id, ...o}))});
+  }
+  if (method === "GET" && (m = p.match(/^\/api\/orders\/(\d+)$/))){
+    const o = DB.orders[m[1]];
+    if (!o) return J(404, {error:"not found"});
+    return ok({oid:+m[1], ...o});
+  }
+  if (method === "GET" && (m = p.match(/^\/orders\/(\d+)$/))){
+    const o = DB.orders[m[1]];
+    if (!o) return J(404, {error:"not found"});
+    if (o.owner_id !== uid) return J(403, {error:"Access denied", detail:`Ye order ${DB.users[o.owner_id]?.name || "kisi aur"} ka hai: ${o.item}, Rs ${o.amount}`});
+    return ok({oid:+m[1], ...o});
+  }
+  if (method === "DELETE" && (m = p.match(/^\/orders\/(\d+)$/))){
+    if (!DB.orders[m[1]]) return J(404, {error:"not found"});
+    delete DB.orders[m[1]];
+    return ok({deleted:+m[1]});
+  }
+  if (method === "GET" && p === "/order"){
+    const ids = q.getAll("id");
+    if (!ids.length) return J(400, {error:"id required"});
+    const first = DB.orders[ids[0]];
+    if (!first || first.owner_id !== uid) return J(403, {error:"Access denied"});
+    const last = ids[ids.length - 1];
+    const o = DB.orders[last];
+    if (!o) return J(404, {error:"not found"});
+    return ok({id:+last, ...o});
+  }
+  if (method === "POST" && p === "/api/orders/update"){
+    const o = DB.orders[body.order_id];
+    if (!o) return J(404, {error:"not found"});
+    o.status = body.status || o.status;
+    return ok({updated:body.order_id, order:{...o}});
+  }
+
+  // Invoices and files
+  if (method === "GET" && p === "/api/my-invoices"){
+    return ok({invoices: Object.entries(DB.invoices).filter(([,i]) => i.owner_id === uid).map(([id,i]) => ({invoice_id:+id, ...i}))});
+  }
+  if (method === "GET" && p === "/invoice"){
+    const id = q.get("invoice_id");
+    const inv = DB.invoices[id];
+    if (!inv) return J(404, {error:"not found"});
+    return ok({invoice_id:+id, ...inv});
+  }
+  if (method === "GET" && p === "/download"){
+    const f = DB.files[q.get("file")];
+    if (!f) return J(404, {error:"not found"});
+    return J(200, f.body);
+  }
+
+  // Profiles
+  if (method === "GET" && p === "/profile"){
+    const id = q.get("user_id");
+    const other = DB.users[id];
+    if (!other) return J(404, {error:"not found"});
+    return ok({user_id:+id, name:other.name, email:other.email, phone:other.phone, address:other.address});
+  }
+  if (method === "GET" && p === "/api/my-profile"){
+    const hid = hdr(h, "X-User-Id");
+    const target = hid ? +hid : uid;
+    const t = DB.users[target];
+    if (!t) return J(404, {error:"not found"});
+    return ok({user_id:target, ...t});
+  }
+  if (method === "PUT" && (m = p.match(/^\/api\/users\/(\d+)$/))){
+    const id = +m[1];
+    if (id !== uid) return J(403, {error:"Access denied"});
+    for (const k of Object.keys(body)) DB.users[id][k] = body[k];
+    return ok({user_id:id, ...DB.users[id]});
+  }
+
+  // Reviews
+  if (method === "GET" && p === "/api/my-review"){
+    const e = Object.entries(DB.reviews).find(([,r]) => r.owner_id === uid);
+    return e ? ok({review_id:+e[0], ...e[1]}) : J(404, {error:"No review"});
+  }
+  if (method === "PUT" && (m = p.match(/^\/api\/reviews\/(\d+)$/))){
+    const r = DB.reviews[m[1]];
+    if (!r) return J(404, {error:"not found"});
+    if (body.text) r.text = body.text;
+    return ok({review_id:+m[1], ...r});
+  }
+
+  // Admin
+  if (method === "GET" && p === "/api/admin/users"){
+    if (me.role !== "admin") return J(403, {error:"Admin access required"});
+    return ok({users: Object.entries(DB.users).map(([id,x]) => ({user_id:+id, name:x.name, email:x.email, role:x.role}))});
+  }
+  if (method === "GET" && (m = p.match(/^\/admin\/delete-user\/(\d+)$/))){
+    const t = DB.users[m[1]];
+    if (!t) return J(404, {error:"not found"});
+    delete DB.users[m[1]];
+    return ok({deleted:t.name});
+  }
+
+  // Correct reference route
+  if (method === "GET" && (m = p.match(/^\/secure\/orders\/(\d+)$/))){
+    const o = DB.orders[m[1]];
+    if (!o || (o.owner_id !== uid && me.role !== "admin")) return J(404, {error:"not found"});
+    return ok({oid:+m[1], ...o});
+  }
+
+  return J(404, {error:"route not found"});
+}
+
+function logReq(m, p, h, body, res){
+  LOG.unshift({m, p, h: JSON.stringify(h), body: body || "", status: res.status});
+  LOG = LOG.slice(0, 60);
+}
+
+function rawRequest(method, path, h, body){
+  if (!LIVE) return route(method, path, h, body);
+  const x = new XMLHttpRequest();
+  x.open(method, path, false);
+  for (const k of Object.keys(h)){
+    if (k.toLowerCase() === "cookie") continue;
+    try { x.setRequestHeader(k, h[k]); } catch(e) {}
+  }
+  if (body) x.setRequestHeader("Content-Type", "application/json");
+  x.send(body || null);
+  let b = x.responseText;
+  const ct = x.getResponseHeader("Content-Type") || "";
+  if (ct.includes("application/json")){ try { b = JSON.parse(b); } catch(e) {} }
+  return {status: x.status, body: b};
+}
+
+function api(method, path, data){
+  const h = LIVE ? {} : {"Cookie": "user_id=" + COOKIE};
+  const body = data ? JSON.stringify(data) : "";
+  const res = rawRequest(method, path, h, body);
+  logReq(method, path, LIVE ? {"Cookie": "(browser cookie)"} : h, body, res);
+  return res;
+}
+
+/* ============ Layout ============ */
+function shell(page, content){
+  const me = ME;
+  if (!me) return content;
+  const links = [["/", "Home"], ["/orders", "My Orders"], ["/invoices", "Invoices"], ["/account", "Account"]];
+  if (me.role === "admin") links.push(["/admin", "Admin"]);
+  const nav = links.map(([p, t]) => `<a href="#${p}" class="${page === p ? "on" : ""}">${t}</a>`).join("");
+  return `
+    <header class="top">
+      <a class="brand" href="#/">ShopNest</a>
+      <nav>${nav}</nav>
+      <div><span class="who">${esc(me.name)}</span><button class="btn ghost sm" onclick="logout()">Logout</button></div>
+    </header>
+    <main>${content}</main>
+    <footer>
+      ShopNest is a fictional practice site. Sab data fake hai.
+      <button onclick="toggleDev()">Developer tools</button>
+    </footer>`;
+}
+
+function render(){
+  const raw = location.hash.slice(1) || "/";
+  const [page, qs = ""] = raw.split("?");
+  const q = new URLSearchParams(qs);
+  ME = null;
+  if (COOKIE){ const r = api("GET", "/api/me"); if (r.status === 200) ME = r.body; }
+  if (!ME && page !== "/login"){ location.hash = "#/login"; return; }
+  let html;
+  if (page === "/login") html = viewLogin();
+  else if (page === "/") html = viewHome();
+  else if (page === "/orders") html = viewOrders();
+  else if (/^\/orders\/\d+$/.test(page)) html = viewOrder(page.split("/")[2]);
+  else if (page === "/track") html = viewTrack(qs);
+  else if (page === "/invoices") html = viewInvoices();
+  else if (page === "/invoice") html = viewInvoice(qs);
+  else if (page === "/account") html = viewAccount();
+  else if (page === "/seller") html = viewSeller(qs);
+  else if (page === "/admin") html = viewAdmin();
+  else html = `<div class="card"><h2>Page nahi mila</h2><p>Ye link kaam nahi kar raha. <a href="#/">Home par jaayein</a>.</p></div>`;
+  document.getElementById("app").innerHTML = shell(page, html);
+}
+
+/* ============ Pages ============ */
+function viewLogin(){
+  return `
+  <div class="login-wrap">
+    <div class="card login">
+      <div class="logo">ShopNest</div>
+      <h2>Sign in</h2>
+      <form onsubmit="return doLogin(event)">
+        <label>Email</label>
+        <input name="email" type="email" required>
+        <label>Password</label>
+        <input name="password" type="password" required>
+        <button class="btn" style="width:100%;margin-top:16px">Sign in</button>
+        <div id="loginErr" class="err-text"></div>
+      </form>
+    </div>
+  </div>`;
+}
+
+function viewHome(){
+  const me = ME;
+  const r = api("GET", "/api/my-orders");
+  const orders = r.body.orders || [];
+  const total = orders.reduce((s, o) => s + o.amount, 0);
+  const recent = orders.slice(0, 3).map(o => `
+    <tr>
+      <td><a href="#/orders/${o.oid}">#${o.oid}</a></td>
+      <td>${esc(o.item)}</td>
+      <td>${badge(o.status)}</td>
+      <td>Rs ${o.amount}</td>
+    </tr>`).join("");
+  return `
+    <div class="card">
+      <h2>Welcome back, ${esc(me.name)}</h2>
+      <div class="grid">
+        <div class="stat"><div class="n">${orders.length}</div><div class="l">Total orders</div></div>
+        <div class="stat"><div class="n">Rs ${total}</div><div class="l">Total spend</div></div>
+        <div class="stat"><div class="n">Active</div><div class="l">Account status</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Recent orders</h2>
+      ${orders.length ? `<table><thead><tr><th>Order</th><th>Item</th><th>Status</th><th>Amount</th></tr></thead><tbody>${recent}</tbody></table>`
+                      : `<p>Abhi koi order nahi hai.</p>`}
+    </div>`;
+}
+
+function badge(s){
+  const cls = s === "Delivered" ? "ok" : (s === "Pending" || s === "Processing") ? "warn" : "";
+  return `<span class="pill ${cls}">${esc(s)}</span>`;
+}
+
+function viewOrders(){
+  const r = api("GET", "/api/my-orders");
+  const rows = (r.body.orders || []).map(o => `
+    <tr>
+      <td><a href="#/orders/${o.oid}">#${o.oid}</a></td>
+      <td>${esc(o.item)}</td>
+      <td>${esc(o.date)}</td>
+      <td>${badge(o.status)}</td>
+      <td>Rs ${o.amount}</td>
+    </tr>`).join("");
+  return `
+    <div class="card">
+      <h2>My orders</h2>
+      <table>
+        <thead><tr><th>Order</th><th>Item</th><th>Date</th><th>Status</th><th>Amount</th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="5">Koi order nahi.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+}
+
+function viewOrder(id){
+  const r = api("GET", "/orders/" + id);
+  if (r.status === 404) return `<div class="card"><h2>Order nahi mila</h2><p>Order #${esc(id)} exist nahi karta.</p></div>`;
+  if (r.status === 403) return `
+    <div class="card">
+      <h2>Order #${esc(id)}</h2>
+      <div class="alert err"><strong>${esc(r.body.error)}.</strong> ${esc(r.body.detail || "")}</div>
+      <p>Is order ki details aapke account se nahi dekhi ja sakti.</p>
+    </div>`;
+  const o = r.body;
+  const cancellable = o.status === "Pending" || o.status === "Processing";
+  return `
+    <div class="card">
+      <h2>Order #${o.oid} ${badge(o.status)}</h2>
+      <div class="kv">
+        <div>Item</div><div>${esc(o.item)}</div>
+        <div>Amount</div><div>Rs ${o.amount}</div>
+        <div>Order date</div><div>${esc(o.date)}</div>
+        <div>Status</div><div>${esc(o.status)}</div>
+      </div>
+      <div style="margin-top:18px">
+        <button class="btn" onclick="downloadInvoice(${o.oid})">Download invoice</button>
+        <a class="btn ghost" href="#/track?id=${o.oid}">Track order</a>
+        <a class="btn ghost" href="#/seller?user_id=3">Contact seller</a>
+        ${cancellable ? `<button class="btn danger" onclick="cancelOrder(${o.oid})">Cancel order</button>` : ""}
+      </div>
+      <pre id="invoiceBox" hidden></pre>
+    </div>`;
+}
+
+function downloadInvoice(id){
+  const r = api("GET", "/download?file=invoice_" + id + ".txt");
+  const box = document.getElementById("invoiceBox");
+  box.hidden = false;
+  box.textContent = r.status === 200 ? r.body : "Invoice file available nahi hai.";
+}
+
+function cancelOrder(id){
+  if (!confirm("Kya aap is order ko cancel karna chahte hain?")) return;
+  const r = api("DELETE", "/orders/" + id);
+  toast(r.status === 200 ? "Order cancel ho gaya." : "Cancel nahi ho paya.");
+  location.hash = "#/orders";
+  render();
+}
+
+function viewTrack(qs){
+  const q = new URLSearchParams(qs);
+  const current = q.get("id") || "";
+  let result = "";
+  if (qs){
+    const r = api("GET", "/order?" + qs);
+    if (r.status === 200){
+      result = `<div class="alert info"><strong>Order #${r.body.id}</strong>: ${esc(r.body.item)}, status <strong>${esc(r.body.status)}</strong></div>`;
+    } else {
+      result = `<div class="alert err">Order ki details nahi mil payin.</div>`;
+    }
+  }
+  return `
+    <div class="card">
+      <h2>Track your order</h2>
+      <form onsubmit="return doTrack(event)">
+        <label>Order ID</label>
+        <input name="id" value="${esc(current)}" placeholder="e.g. 500">
+        <button class="btn">Track</button>
+      </form>
+    </div>
+    ${result ? `<div class="card">${result}</div>` : ""}`;
+}
+
+function viewInvoices(){
+  const r = api("GET", "/api/my-invoices");
+  const rows = (r.body.invoices || []).map(i => `
+    <tr>
+      <td><a href="#/invoice?invoice_id=${i.invoice_id}">INV-${i.invoice_id}</a></td>
+      <td>${esc(i.date)}</td>
+      <td>Rs ${i.total}</td>
+    </tr>`).join("");
+  return `
+    <div class="card">
+      <h2>Invoices</h2>
+      <table>
+        <thead><tr><th>Invoice</th><th>Date</th><th>Total</th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="3">Koi invoice nahi.</td></tr>`}</tbody>
+      </table>
+    </div>`;
+}
+
+function viewInvoice(qs){
+  const r = api("GET", "/invoice?" + qs);
+  if (r.status !== 200) return `<div class="card"><h2>Invoice nahi mila</h2></div>`;
+  return `
+    <div class="card">
+      <h2>Invoice INV-${r.body.invoice_id}</h2>
+      <div class="kv">
+        <div>Date</div><div>${esc(r.body.date)}</div>
+        <div>Total</div><div>Rs ${r.body.total}</div>
+      </div>
+      <a class="btn ghost" href="#/invoices" style="margin-top:14px">Back to invoices</a>
+    </div>`;
+}
+
+function viewAccount(){
+  const me = api("GET", "/api/me").body;
+  const rv = api("GET", "/api/my-review");
+  const review = rv.status === 200 ? rv.body : null;
+  return `
+    <div class="card">
+      <h2>Profile</h2>
+      <form onsubmit="return saveProfile(event, ${me.user_id})">
+        <label>Full name</label>
+        <input name="name" value="${esc(me.name)}">
+        <label>Email</label>
+        <input name="email" value="${esc(me.email)}">
+        <label>Phone</label>
+        <input name="phone" value="${esc(me.phone)}">
+        <label>Delivery address</label>
+        <textarea name="address">${esc(me.address)}</textarea>
+        <input type="hidden" name="role" value="${esc(me.role)}">
+        <button class="btn">Save changes</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>My review</h2>
+      ${review ? `
+        <p><strong>${esc(review.product)}</strong> | Rating ${review.rating}/5</p>
+        <form onsubmit="return saveReview(event, ${review.review_id})">
+          <textarea name="text">${esc(review.text)}</textarea>
+          <button class="btn">Update review</button>
+        </form>` : `<p>Aapne abhi tak koi review nahi diya.</p>`}
+    </div>`;
+}
+
+function viewSeller(qs){
+  const r = api("GET", "/profile?" + qs);
+  if (r.status !== 200) return `<div class="card"><h2>Seller nahi mila</h2></div>`;
+  const s = r.body;
+  return `
+    <div class="card">
+      <h2>Seller contact</h2>
+      <div class="kv">
+        <div>Name</div><div>${esc(s.name)}</div>
+        <div>Email</div><div>${esc(s.email)}</div>
+        <div>Phone</div><div>${esc(s.phone)}</div>
+        <div>Address</div><div>${esc(s.address)}</div>
+      </div>
+    </div>`;
+}
+
+function viewAdmin(){
+  const r = api("GET", "/api/admin/users");
+  if (r.status !== 200) return `<div class="card"><div class="alert err">${esc(r.body.error)}</div></div>`;
+  const rows = r.body.users.map(u => `
+    <tr>
+      <td>${u.user_id}</td>
+      <td>${esc(u.name)}</td>
+      <td>${esc(u.email)}</td>
+      <td>${esc(u.role)}</td>
+      <td><button class="btn danger sm" onclick="adminDelete(${u.user_id})">Delete</button></td>
+    </tr>`).join("");
+  return `
+    <div class="card">
+      <h2>Admin: users</h2>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function adminDelete(id){
+  if (!confirm("User delete karna hai?")) return;
+  const r = api("GET", "/admin/delete-user/" + id);
+  toast(r.status === 200 ? "User delete ho gaya." : "Delete nahi hua.");
+  render();
+}
+
+/* ============ Actions ============ */
+function doLogin(e){
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const r = api("POST", "/api/login", {email: f.get("email"), password: f.get("password")});
+  if (r.status !== 200){
+    document.getElementById("loginErr").textContent = (r.body && r.body.error) || "Login nahi ho paya.";
+    return false;
+  }
+  setCookie(String(r.body.user_id));
+  location.hash = "#/";
+  render();
+  return false;
+}
+
+function logout(){
+  clearCookie();
+  location.hash = "#/login";
+  render();
+}
+
+function doTrack(e){
+  e.preventDefault();
+  const v = new FormData(e.target).get("id").trim();
+  location.hash = "#/track?id=" + encodeURIComponent(v);
+  render();
+  return false;
+}
+
+function saveProfile(e, uid){
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const r = api("PUT", "/api/users/" + uid, data);
+  toast(r.status === 200 ? "Profile save ho gaya." : "Save nahi hua.");
+  render();
+  return false;
+}
+
+function saveReview(e, rid){
+  e.preventDefault();
+  const text = new FormData(e.target).get("text");
+  const r = api("PUT", "/api/reviews/" + rid, {text});
+  toast(r.status === 200 ? "Review update ho gaya." : "Update nahi hua.");
+  render();
+  return false;
+}
+
+function toast(msg){
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+/* ============ Developer tools ============ */
+function toggleDev(){
+  const d = document.getElementById("dev");
+  d.hidden = !d.hidden;
+  if (!d.hidden){ renderNet(); document.getElementById("ck-val").value = COOKIE; }
+}
+
+function devTab(t){
+  ["net","rep","ck"].forEach(x => {
+    document.getElementById("t-" + x).hidden = x !== t;
+    document.getElementById("tab-" + x).classList.toggle("on", x === t);
+  });
+  if (t === "net") renderNet();
+}
+
+function renderNet(){
+  const box = document.getElementById("t-net");
+  box.innerHTML = "";
+  if (!LOG.length){ box.textContent = "Abhi koi request nahi."; return; }
+  LOG.forEach((x, i) => {
+    const d = document.createElement("div");
+    d.className = "row";
+    d.textContent = `${x.m} ${x.p}  ->  ${x.status}`;
+    d.onclick = () => loadLog(i);
+    box.appendChild(d);
+  });
+}
+
+function loadLog(i){
+  const x = LOG[i];
+  document.getElementById("r-method").value = x.m;
+  document.getElementById("r-path").value = x.p;
+  document.getElementById("r-headers").value = x.h;
+  document.getElementById("r-body").value = x.body;
+  devTab("rep");
+}
+
+function sendRep(){
+  let h = {};
+  try { h = JSON.parse(document.getElementById("r-headers").value || "{}"); }
+  catch(e){ document.getElementById("r-out").textContent = "Headers JSON invalid hai."; return; }
+  const m = document.getElementById("r-method").value;
+  const p = document.getElementById("r-path").value.trim();
+  const b = document.getElementById("r-body").value;
+  const res = rawRequest(m, p, h, b);
+  logReq(m, p, h, b, res);
+  document.getElementById("r-out").textContent =
+    `HTTP ${res.status}\n\n` + (typeof res.body === "string" ? res.body : JSON.stringify(res.body, null, 2));
+}
+
+function applyCookie(){
+  setCookie(document.getElementById("ck-val").value.trim());
+  render();
+}
+
+window.addEventListener("hashchange", render);
+loadCookie();
+render();
+</script>
+</body>
+</html>
